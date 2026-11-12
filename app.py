@@ -1,3 +1,4 @@
+
 import streamlit as st
 import json
 
@@ -10,14 +11,17 @@ from database import (
     update_notice_status
 )
 
+# Page configuration
 st.set_page_config(
     page_title="Notice2Action",
     page_icon="📢",
     layout="wide"
 )
 
+# Initialize database
 initialize_db()
 
+# Header
 st.title("📢 Notice2Action")
 st.subheader("Turn College Notices into Student Actions")
 
@@ -28,6 +32,7 @@ st.write(
 
 st.divider()
 
+# Sidebar
 menu = st.sidebar.radio(
     "Navigation",
     ["Home", "My Dashboard"]
@@ -44,11 +49,11 @@ if menu == "Home":
         key="notice_upload"
     )
 
-    # Reset old analysis when a different PDF is selected
     if uploaded_file is not None:
 
         current_file = uploaded_file.name
 
+        # Clear old analysis when a new file is selected
         if st.session_state.get("current_file") != current_file:
             st.session_state.pop("analysis", None)
             st.session_state.pop("extracted_text", None)
@@ -136,29 +141,37 @@ if menu == "Home":
             if title.strip():
 
                 try:
-                    save_notice(
+                    is_saved = save_notice(
                         title,
                         st.session_state["filename"],
                         st.session_state["extracted_text"],
                         analysis
                     )
 
-                    st.success("Notice saved successfully!")
+                    if is_saved:
+                        st.success("Notice saved successfully!")
 
-                    for key in [
-                        "analysis",
-                        "extracted_text",
-                        "filename",
-                        "current_file"
-                    ]:
-                        st.session_state.pop(key, None)
+                        for key in [
+                            "analysis",
+                            "extracted_text",
+                            "filename",
+                            "current_file"
+                        ]:
+                            st.session_state.pop(key, None)
+
+                    else:
+                        st.warning(
+                            "This notice already exists! "
+                            "Duplicate notice was not saved."
+                        )
 
                 except Exception:
-                    st.error("Unable to save notice. Please try again.")
+                    st.error(
+                        "Unable to save notice. Please try again."
+                    )
 
             else:
                 st.warning("Please enter a notice title.")
-
 
 # DASHBOARD PAGE
 elif menu == "My Dashboard":
