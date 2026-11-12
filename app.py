@@ -10,17 +10,14 @@ from database import (
     update_notice_status
 )
 
-# Page configuration
 st.set_page_config(
     page_title="Notice2Action",
     page_icon="📢",
     layout="wide"
 )
 
-# Initialize database
 initialize_db()
 
-# Header
 st.title("📢 Notice2Action")
 st.subheader("Turn College Notices into Student Actions")
 
@@ -31,7 +28,6 @@ st.write(
 
 st.divider()
 
-# Sidebar
 menu = st.sidebar.radio(
     "Navigation",
     ["Home", "My Dashboard"]
@@ -44,10 +40,20 @@ if menu == "Home":
 
     uploaded_file = st.file_uploader(
         "Choose a PDF notice",
-        type=["pdf"]
+        type=["pdf"],
+        key="notice_upload"
     )
 
+    # Reset old analysis when a different PDF is selected
     if uploaded_file is not None:
+
+        current_file = uploaded_file.name
+
+        if st.session_state.get("current_file") != current_file:
+            st.session_state.pop("analysis", None)
+            st.session_state.pop("extracted_text", None)
+            st.session_state.pop("filename", None)
+            st.session_state["current_file"] = current_file
 
         if st.button("Analyze Notice"):
 
@@ -56,29 +62,36 @@ if menu == "Home":
                 try:
                     pdf_bytes = uploaded_file.getvalue()
 
-                    extracted_text = extract_text_from_pdf(
-                        pdf_bytes
-                    )
-
-                    if not extracted_text.strip():
-                        st.warning(
-                            "No readable text found in this PDF. "
-                            "Scanned PDFs are not supported yet."
-                        )
+                    if not pdf_bytes:
+                        st.error("The uploaded PDF is empty.")
 
                     else:
-                        analysis = analyze_notice(
-                            extracted_text
+                        extracted_text = extract_text_from_pdf(
+                            pdf_bytes
                         )
 
-                        st.session_state["analysis"] = analysis
-                        st.session_state["extracted_text"] = extracted_text
-                        st.session_state["filename"] = uploaded_file.name
+                        if not extracted_text.strip():
+                            st.warning(
+                                "No readable text found in this PDF. "
+                                "Scanned PDFs are not supported yet."
+                            )
 
-                except Exception as e:
-                    st.error(f"Error: {e}")
+                        else:
+                            analysis = analyze_notice(
+                                extracted_text
+                            )
 
-    # Show analysis
+                            st.session_state["analysis"] = analysis
+                            st.session_state["extracted_text"] = extracted_text
+                            st.session_state["filename"] = uploaded_file.name
+
+                except Exception:
+                    st.error(
+                        "Unable to read this PDF. "
+                        "Please upload a valid PDF file."
+                    )
+
+    # SHOW ANALYSIS
     if "analysis" in st.session_state:
 
         analysis = st.session_state["analysis"]
@@ -122,18 +135,26 @@ if menu == "Home":
 
             if title.strip():
 
-                save_notice(
-                    title,
-                    st.session_state["filename"],
-                    st.session_state["extracted_text"],
-                    analysis
-                )
+                try:
+                    save_notice(
+                        title,
+                        st.session_state["filename"],
+                        st.session_state["extracted_text"],
+                        analysis
+                    )
 
-                st.success("Notice saved successfully!")
+                    st.success("Notice saved successfully!")
 
-                del st.session_state["analysis"]
-                del st.session_state["extracted_text"]
-                del st.session_state["filename"]
+                    for key in [
+                        "analysis",
+                        "extracted_text",
+                        "filename",
+                        "current_file"
+                    ]:
+                        st.session_state.pop(key, None)
+
+                except Exception:
+                    st.error("Unable to save notice. Please try again.")
 
             else:
                 st.warning("Please enter a notice title.")
@@ -188,9 +209,7 @@ elif menu == "My Dashboard":
                 st.write(fees if fees else "None")
 
                 st.write("**Instructions:**")
-                st.write(
-                    instructions if instructions else "None"
-                )
+                st.write(instructions if instructions else "None")
 
                 status = st.selectbox(
                     "Update Status",

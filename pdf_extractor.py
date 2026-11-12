@@ -1,25 +1,33 @@
+
 import pymupdf
 
-
 def extract_text_from_pdf(pdf_bytes):
-    """
-    Extract text from an uploaded PDF.
-    """
+
+    if not pdf_bytes:
+        raise ValueError("The uploaded PDF is empty.")
 
     document = pymupdf.open(
         stream=pdf_bytes,
         filetype="pdf"
     )
 
-    extracted_pages = []
+    try:
+        if document.page_count == 0:
+            return ""
 
-    for page_number, page in enumerate(document, start=1):
-        text = page.get_text("text")
+        extracted_pages = []
 
-        extracted_pages.append(
-            f"\n--- Page {page_number} ---\n{text}"
-        )
+        for page_number, page in enumerate(
+            document, start=1
+        ):
+            text = page.get_text("text").strip()
 
-    document.close()
+            if text:
+                extracted_pages.append(
+                    f"\n--- Page {page_number} ---\n{text}"
+                )
 
-    return "\n".join(extracted_pages)
+        return "\n".join(extracted_pages)
+
+    finally:
+        document.close()
