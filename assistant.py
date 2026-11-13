@@ -8,8 +8,8 @@ def clean_text(text):
 
 
 def split_sentences(text):
-    """Split notice into readable sentences."""
-    text = clean_text(text)
+    """Split notice text into readable sentences."""
+    text = str(text).replace("\r", "\n")
 
     sentences = re.split(
         r'(?<=[.!?])\s+|\n+',
@@ -78,9 +78,7 @@ def find_matching_sentences(question, notice_text):
         score = overlap + similarity
 
         if score > 0.15:
-            scored_sentences.append(
-                (score, sentence)
-            )
+            scored_sentences.append((score, sentence))
 
     scored_sentences.sort(
         key=lambda item: item[0],
@@ -104,7 +102,6 @@ def answer_question(question, notice_text):
         return "Please upload and analyze a notice first."
 
     language = detect_language(question)
-
     q = question.lower()
 
     # Deadline-related questions
@@ -115,27 +112,34 @@ def answer_question(question, notice_text):
 
     if any(word in q for word in deadline_keywords):
 
-        dates = re.findall(
+        date_pattern = (
             r'\b(?:\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4}|'
             r'\d{1,2}\s+'
             r'(?:January|February|March|April|May|June|'
             r'July|August|September|October|November|December)'
-            r'\s+\d{4})\b',
+            r'\s+\d{4})\b'
+        )
+
+        dates = re.findall(
+            date_pattern,
             notice_text,
             re.IGNORECASE
         )
 
         if dates:
+
+            dates = list(dict.fromkeys(dates))
+
             if language == "hindi":
                 return (
                     "Notice mein ye dates mili hain: "
-                    + ", ".join(dict.fromkeys(dates))
+                    + ", ".join(dates)
                     + ". Kripya original notice se deadline verify karein."
                 )
 
             return (
                 "The following dates were found in the notice: "
-                + ", ".join(dict.fromkeys(dates))
+                + ", ".join(dates)
                 + ". Please verify the exact deadline in the original notice."
             )
 
@@ -148,8 +152,8 @@ def answer_question(question, notice_text):
     if any(word in q for word in fee_keywords):
 
         fee_pattern = (
-            r'(?:Rs\.?|INR|₹)\s?[\d,]+'
-            r'|[\d,]+\s?(?:rupees|rs\.?)'
+            r'(?:₹|Rs\.?|INR)\s?[\d,]+(?:\.\d{1,2})?'
+            r'|[\d,]+(?:\.\d{1,2})?\s?(?:rupees|rs\.?)'
         )
 
         fees = re.findall(
@@ -159,16 +163,19 @@ def answer_question(question, notice_text):
         )
 
         if fees:
+
+            fees = list(dict.fromkeys(fees))
+
             if language == "hindi":
                 return (
                     "Notice mein ye fee amounts mile hain: "
-                    + ", ".join(dict.fromkeys(fees))
+                    + ", ".join(fees)
                     + ". Exact fee verify kar lein."
                 )
 
             return (
                 "The fee amounts found in the notice are: "
-                + ", ".join(dict.fromkeys(fees))
+                + ", ".join(fees)
                 + ". Please verify the exact amount."
             )
 
@@ -189,7 +196,7 @@ def answer_question(question, notice_text):
         if matches:
             return "\n\n".join(matches)
 
-    # General notice-based question answering
+    # General notice-based questions
     matches = find_matching_sentences(
         question,
         notice_text
