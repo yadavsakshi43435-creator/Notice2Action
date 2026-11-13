@@ -816,57 +816,61 @@ elif page == "Assistant":
                 st.warning("Please enter a question.")
 
 
+
 # ==========================================
 # ABOUT PROJECT PAGE
 # ==========================================
 
 elif page == "About":
 
-    st.markdown('<div class="main-title">ℹ️ About Notice2Action</div>',
-                unsafe_allow_html=True)
+    st.markdown(
+        '<div class="main-title">ℹ️ About Notice2Action</div>',
+        unsafe_allow_html=True
+    )
 
-    st.markdown("""
-    <div class="card">
-        <h2>📘 Notice2Action</h2>
+    about_html = textwrap.dedent("""
+        <div class="card">
+            <h2>📘 Notice2Action</h2>
 
-        <p>
-        Notice2Action is a student-focused notice management
-        platform designed to simplify academic responsibilities.
-        </p>
+            <p>
+                Notice2Action is a student-focused notice management
+                platform designed to simplify academic responsibilities.
+            </p>
 
-        <h3>🎯 Our Mission</h3>
+            <h3>🎯 Our Mission</h3>
 
-        <p>
-        To help students understand college notices, identify
-        important information and manage deadlines efficiently.
-        </p>
+            <p>
+                To help students understand college notices, identify
+                important information and manage deadlines efficiently.
+            </p>
 
-        <h3>⚙️ Key Features</h3>
+            <h3>⚙️ Key Features</h3>
 
-        <ul>
-            <li>PDF notice text extraction</li>
-            <li>Important date and fee detection</li>
-            <li>Instruction and task identification</li>
-            <li>Notice and task database management</li>
-            <li>Task status tracking</li>
-            <li>Notice Intelligence Assistant</li>
-        </ul>
+            <ul>
+                <li>PDF notice text extraction</li>
+                <li>Important date and fee detection</li>
+                <li>Instruction and task identification</li>
+                <li>Notice and task database management</li>
+                <li>Task status tracking</li>
+                <li>Notice Intelligence Assistant</li>
+            </ul>
 
-        <h3>🛠️ Technology Stack</h3>
+            <h3>🛠️ Technology Stack</h3>
 
-        <ul>
-            <li>Python</li>
-            <li>Streamlit</li>
-            <li>SQLite</li>
-            <li>PyMuPDF</li>
-            <li>Regular Expressions</li>
-        </ul>
+            <ul>
+                <li>Python</li>
+                <li>Streamlit</li>
+                <li>SQLite</li>
+                <li>PyMuPDF</li>
+                <li>Regular Expressions</li>
+            </ul>
 
-        <p>
-        <b>Project:</b> Notice2Action
-        </p>
+            <p>
+                <b>Project:</b> Notice2Action
+            </p>
+        </div>
+    """)
 
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown(about_html, unsafe_allow_html=True)
 
     st.caption("Notice2Action — From Notice to Action.")
