@@ -1,87 +1,158 @@
-# Notice2Action
+# 📘 Notice2Action
 
-### From College Notices to Clear Student Actions
+### From Notice to Action
 
-Notice2Action is a College Notice Intelligence and Student Action Management System designed to help students understand lengthy college notices and keep track of important information.
+Notice2Action is a student-focused notice management platform that helps students understand college notices, identify important information, and manage academic tasks efficiently.
 
-## Problem Statement
+Instead of manually reading lengthy college notices, students can upload PDF documents and extract important dates, fees, instructions, and suggested tasks in one place.
 
-Colleges regularly share notices containing important deadlines, examination details, fee information, events, and instructions.
+🌐 **Live Demo:** [https://notice2action-svv7.onrender.com]
 
-Students may find it difficult to identify important information from lengthy notices and keep track of the actions they need to complete.
+📂 **GitHub Repository:** [https://github.com/yadavsakshi43435-creator/Notice2Action]
 
-## Our Solution
+---
 
-Notice2Action simplifies this process by allowing students to upload college notice PDFs, extract their text, identify important information, and save notices for easy tracking.
+## 🚩 Problem Statement
 
-It aims to make college communication more accessible, organized, and student-friendly.
+College students regularly receive notices regarding examinations, fee submissions, assignments, registrations, events, and other academic activities.
 
-## Key Features
+Important information can easily be missed when students have to read multiple lengthy notices manually.
 
-- **PDF Notice Upload:** Upload college notices in PDF format.
-- **Automatic Text Extraction:** Extract readable text from PDF documents.
-- **Deadline Detection:** Identify important dates mentioned in notices.
-- **Fee Detection:** Find fee-related amounts and information.
-- **Instruction Identification:** Extract important instructions and action-related information.
-- **Notice Management:** Save analyzed notices for future reference.
-- **Student Dashboard:** View saved notices in one place.
-- **Status Tracking:** Mark notices as Pending or Completed.
-- **Duplicate Prevention:** Prevent saving the same notice multiple times.
+This can lead to missed deadlines, incomplete tasks, and confusion.
 
-## Technology Stack
+## 💡 Our Solution
 
-| Technology | Purpose                   |
-| ---------- | ------------------------- |
-| Python     | Core programming language |
-| Streamlit  | User interface            |
-| PyMuPDF    | PDF text extraction       |
-| SQLite     | Database management       |
-| Pandas     | Data handling             |
+Notice2Action simplifies notice management by converting PDF notices into organized and actionable information.
 
-## How It Works
+Students can upload notices, automatically extract relevant details, save notices, manage tasks, and ask questions about notice content using the Notice Intelligence Assistant.
+
+---
+
+## ✨ Key Features
+
+### 1. PDF Notice Upload
+
+- Upload college notices in PDF format.
+- Extract readable text using PyMuPDF.
+- Display extracted notice content.
+
+### 2. Smart Notice Analysis
+
+- Detect important dates.
+- Identify fee-related information.
+- Extract important instructions.
+- Generate suggested tasks from notice content.
+
+### 3. Notice Management
+
+- Save analyzed notices in the database.
+- Prevent duplicate notice entries.
+- View previously saved notices.
+- Track notice status.
+
+### 4. Task Management
+
+- Automatically save suggested tasks.
+- View all saved tasks.
+- Filter pending, completed, upcoming, and overdue tasks.
+- Edit task details.
+- Update task status.
+- Delete individual tasks.
+
+### 5. Dashboard
+
+- View saved notices.
+- Monitor total tasks.
+- Track pending and completed tasks.
+- View upcoming and overdue tasks.
+
+### 6. Notice Intelligence Assistant
+
+- Ask questions about analyzed notice content.
+- Find relevant information using rule-based text matching.
+- Receive answers based on extracted notice text.
+
+**Note:** The current assistant uses rule-based matching and is not powered by a generative AI model.
+
+---
+
+## ⚙️ Technology Stack
+
+| Technology          | Purpose                      |
+| ------------------- | ---------------------------- |
+| Python              | Core programming language    |
+| Streamlit           | Frontend and web application |
+| SQLite              | Database management          |
+| PyMuPDF             | PDF text extraction          |
+| Regular Expressions | Information detection        |
+| Python difflib      | Text similarity matching     |
+| Git & GitHub        | Version control              |
+| Render              | Cloud deployment             |
+
+---
+
+## 🔄 How It Works
 
 1. Student uploads a college notice PDF.
-2. Notice2Action extracts readable text from the document.
-3. The system identifies dates, fees, and instructions.
-4. Student reviews the extracted information.
-5. The notice can be saved to the database.
-6. Student tracks saved notices through the dashboard.
+2. PyMuPDF extracts readable text.
+3. Notice Analyzer processes the extracted text.
+4. Important dates, fees, and instructions are identified.
+5. Suggested tasks are generated.
+6. Notice and tasks are saved in SQLite.
+7. Students manage their tasks through the dashboard.
+8. Notice Intelligence Assistant helps answer questions about the analyzed notice.
 
-## Project Structure
+---
+
+## 🏗️ Project Structure
 
 ```text
 Notice2Action/
 │
 ├── app.py
+├── assistant.py
 ├── database.py
 ├── notice_analyzer.py
 ├── pdf_extractor.py
 ├── requirements.txt
-├── .gitignore
-└── README.md
+├── README.md
+│
+├── docs/
+│   ├── PRD.md
+│   └── TRD.md
+│
+└── .gitignore
 ```
 
-## Installation and Setup
+---
 
-### 1. Clone the Repository
+## 🚀 Installation and Setup
+
+### Prerequisites
+
+- Python 3.11 or later
+- Git
+- Visual Studio Code (recommended)
+
+### Step 1: Clone the Repository
 
 ```bash
 git clone https://github.com/yadavsakshi43435-creator/Notice2Action.git
 ```
 
-### 2. Open the Project Folder
+### Step 2: Navigate to the Project Folder
 
 ```bash
-cd Notice2Action
+cd Notice2Action/Notice2Action
 ```
 
-### 3. Create a Virtual Environment
+### Step 3: Create a Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-### 4. Activate the Environment
+### Step 4: Activate Virtual Environment
 
 For Windows PowerShell:
 
@@ -89,56 +160,64 @@ For Windows PowerShell:
 .\venv\Scripts\Activate.ps1
 ```
 
-### 5. Install Dependencies
+### Step 5: Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 6. Run the Application
+### Step 6: Run the Application
 
 ```bash
-python -m streamlit run app.py
+streamlit run app.py
 ```
 
-The application will open in your browser at:
-
-```text
-http://localhost:8501
-```
-
-## Current Limitations
-
-- Currently supports text-based PDFs.
-- Scanned PDFs and image-based notices are not supported yet because OCR is not implemented.
-- Information detection is rule-based and may not identify every notice format correctly.
-- AI-based analysis and Gemini API integration are potential future enhancements.
-
-## Future Scope
-
-- OCR support for scanned notices.
-- AI-powered notice summarization.
-- Automatic task and reminder generation.
-- Calendar integration for important deadlines.
-- Improved multilingual notice understanding.
-- Cloud-based access for students.
-
-## Team – Nextrio
-
-| Team Member      | Responsibility                        |
-| ---------------- | ------------------------------------- |
-| Sakshi Yadav     | Team Leader – Backend and Integration |
-| Rajni Singh      | Frontend and UI                       |
-| Rimjhim Kushwaha | Database and Testing                  |
-
-## Project Information
-
-**Event:** IDEATHON 2026
-**Project Name:** Notice2Action
-**Status:** Under Development
+The application will open in your default browser.
 
 ---
 
-*Making college notices easier to understand and student actions easier to manage.*
+## ⚠️ Current Limitations
+
+- Currently supports text-based PDF notices only.
+- Scanned PDFs and image-based notices are not supported because OCR is not implemented.
+- Notice information extraction is primarily rule-based and may not identify every notice format accurately.
+- The Notice Intelligence Assistant uses rule-based text matching and may not always provide contextually accurate answers.
+- Automatic notifications and external calendar integration are not currently available.
+- SQLite is used for data storage; persistent cloud database integration is a future improvement.
+
+---
+
+## 🔮 Future Scope
+
+- OCR support for scanned and image-based notices.
+- AI-powered notice summarization and information extraction.
+- Improved contextual understanding through advanced AI models.
+- Automatic task and reminder notifications.
+- Calendar integration for important deadlines.
+- Improved multilingual notice understanding.
+- Cloud-based database and reliable data persistence.
+- Mobile-friendly access for students.
+
+---
+
+## 🎯 Project Objective
+
+Our objective is to reduce the effort required to understand and manage college notices by transforming important academic information into organized and actionable tasks.
+
+**Notice2Action — Never Miss an Important Notice Again!**
+
+---
+
+## 👥 Project Documentation
+
+- [Product Requirements Document (PRD)](docs/PRD.md)
+- [Technical Requirements Document (TRD)](docs/TRD.md)
+
+---
+
+## 📜 License
+
+This project was developed as an academic project for IDEATHON 2026.
+
 
 
