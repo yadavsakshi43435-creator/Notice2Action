@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 from datetime import date, datetime
+import textwrap
 
 from pdf_extractor import extract_text_from_pdf
 from notice_analyzer import analyze_notice
