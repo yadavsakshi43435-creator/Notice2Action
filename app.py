@@ -830,48 +830,50 @@ elif page == "About":
     )
 
     about_html = textwrap.dedent("""
-        <div class="card">
-            <h2>📘 Notice2Action</h2>
+    <div class="card">
 
-            <p>
-                Notice2Action is a student-focused notice management
-                platform designed to simplify academic responsibilities.
-            </p>
+        <h2>📘 Notice2Action</h2>
 
-            <h3>🎯 Our Mission</h3>
+        <p>
+            Notice2Action is a student-focused notice management
+            platform designed to simplify academic responsibilities.
+        </p>
 
-            <p>
-                To help students understand college notices, identify
-                important information and manage deadlines efficiently.
-            </p>
+        <h3>🎯 Our Mission</h3>
 
-            <h3>⚙️ Key Features</h3>
+        <p>
+            To help students understand college notices, identify
+            important information and manage deadlines efficiently.
+        </p>
 
-            <ul>
-                <li>PDF notice text extraction</li>
-                <li>Important date and fee detection</li>
-                <li>Instruction and task identification</li>
-                <li>Notice and task database management</li>
-                <li>Task status tracking</li>
-                <li>Notice Intelligence Assistant</li>
-            </ul>
+        <h3>⚙️ Key Features</h3>
 
-            <h3>🛠️ Technology Stack</h3>
+        <ul>
+            <li>PDF notice text extraction</li>
+            <li>Important date and fee detection</li>
+            <li>Instruction and task identification</li>
+            <li>Notice and task database management</li>
+            <li>Task status tracking</li>
+            <li>Notice Intelligence Assistant</li>
+        </ul>
 
-            <ul>
-                <li>Python</li>
-                <li>Streamlit</li>
-                <li>SQLite</li>
-                <li>PyMuPDF</li>
-                <li>Regular Expressions</li>
-            </ul>
+        <h3>🛠️ Technology Stack</h3>
 
-            <p>
-                <b>Project:</b> Notice2Action
-            </p>
-        </div>
+        <ul>
+            <li>Python</li>
+            <li>Streamlit</li>
+            <li>SQLite</li>
+            <li>PyMuPDF</li>
+            <li>Regular Expressions</li>
+        </ul>
+
+        <p>
+            <b>Project:</b> Notice2Action
+        </p>
+
+    </div>
     """)
 
-    st.markdown(about_html, unsafe_allow_html=True)
+    st.html(about_html)
 
     st.caption("Notice2Action — From Notice to Action.")
